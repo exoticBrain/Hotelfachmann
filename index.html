@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Visualization & Content Choices:
+    - Background Image: High-quality, subtle hotel-themed image with a dark overlay for readability. Goal: Aesthetic appeal, thematic alignment.
     - Photo: HTML img (placeholder), Goal: Personalization, Interaction: Subtle hover scale.
     - Navigation: HTML links + JS smooth scroll, Goal: Easy access to sections. Mobile: Hamburger menu toggle for sidebar visibility.
     - Anschreiben: Formatted HTML text from the improved version, Goal: Present motivation, Interaction: Scroll-fade-in.
@@ -20,17 +21,34 @@
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+            background-color: #f5f5f4; /* stone-100 fallback */
+            background-image: url('https://placehold.co/1920x1080/262626/F5F5F4?text=Luxurious+Hotel+Lobby'); /* Placeholder for a luxurious hotel lobby */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Fixes the background image during scroll */
+            position: relative; /* Needed for pseudo-element overlay */
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Dark overlay for readability */
+            z-index: -1; /* Place behind content */
         }
         .scroll-smooth { scroll-behavior: smooth; }
         .sidebar-link {
             display: block;
             padding: 0.75rem 1.5rem;
             border-radius: 0.375rem;
-            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.2s ease-in-out;
         }
         .sidebar-link:hover, .sidebar-link.active {
-            background-color: #0e7490; /* cyan-700 for active/hover */
+            background-color: #0e7490; /* cyan-700 */
             color: white;
+            transform: translateX(5px); /* Subtle slide effect on hover */
         }
         .chart-container {
             position: relative;
@@ -48,11 +66,11 @@
         }
         .content-section h2 {
             font-size: 1.75rem;
-            font-weight: 600;
-            color: #0e7490;
+            font-weight: 700; /* Bolder headings */
+            color: #FFD700; /* Gold accent for main headings */
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid #0e7490;
+            border-bottom: 2px solid #0e7490; /* cyan-700 border */
         }
         .content-section h3 {
             font-size: 1.25rem;
@@ -62,23 +80,24 @@
             margin-bottom: 0.75rem;
         }
         .card {
-            background-color: white;
-            border-radius: 0.75rem; /* More rounded corners */
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white for content cards */
+            border-radius: 0.75rem;
             padding: 1.5rem;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* Stronger shadow */
-            margin-bottom: 1.5rem; /* More space between cards */
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2), 0 4px 8px -4px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+            margin-bottom: 1.5rem;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: 1px solid rgba(255, 215, 0, 0.2); /* Subtle gold border */
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            transform: translateY(-8px); /* More noticeable lift */
+            box-shadow: 0 25px 40px -8px rgba(0, 0, 0, 0.3), 0 10px 15px -6px rgba(0, 0, 0, 0.15);
         }
 
         /* Fade-in animation */
         .fade-in-section {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(30px); /* More pronounced initial translateY */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Slower transition */
         }
         .fade-in-section.is-visible {
             opacity: 1;
@@ -97,34 +116,34 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                width: 75%; /* Adjust width for mobile sidebar */
+                width: 75%;
                 height: 100%;
-                z-index: 50; /* Higher z-index to be on top of main content */
+                z-index: 50;
                 transition: transform 0.3s ease-in-out;
             }
             .main-content {
                 margin-left: 0;
-                padding-top: 4rem; /* Space for fixed top bar */
+                padding-top: 4rem;
             }
             .hamburger-menu {
-                display: block; /* Show hamburger on mobile */
+                display: block;
             }
         }
         @media (min-width: 768px) {
             .sidebar {
                 transform: translateX(0) !important;
-                position: sticky; /* Changed from fixed to sticky */
-                top: 0; /* Sticks to the top of the viewport */
+                position: sticky;
+                top: 0;
                 left: 0;
                 width: 64; /* w-64 */
-                height: 100vh; /* Ensures it always takes full viewport height when sticky */
+                height: 100vh;
             }
             .main-content {
                 margin-left: 16rem; /* ml-64 */
                 padding-top: 0;
             }
             .hamburger-menu {
-                display: none; /* Hide hamburger on desktop */
+                display: none;
             }
         }
     </style>
@@ -143,7 +162,7 @@
 
     <aside id="sidebar" class="sidebar fixed top-0 left-0 w-64 h-full bg-white shadow-lg p-6 flex flex-col space-y-6 overflow-y-auto z-50 md:relative md:translate-x-0 sidebar-mobile-hidden">
         <div class="text-center">
-            <img src="./Pic.png" alt="Foto Tariq Mojahdi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-600 object-cover transform transition-transform duration-300 hover:scale-105">
+            <img src="./Pic.png" alt="Foto Tariq Mojahdi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-amber-400 object-cover transform transition-transform duration-300 hover:scale-105">
             <h1 class="text-2xl font-bold text-cyan-700">Tariq Mojahdi</h1>
             <p class="text-sm text-stone-600">Bewerbung als Hotelfachmann</p>
         </div>
