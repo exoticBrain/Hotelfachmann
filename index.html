@@ -7,19 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Visualization & Content Choices:
-    - Photo: HTML img (placeholder - actual image from PDF page 2 should be used), Goal: Personalization, Interaction: None.
-    - Navigation: HTML links + JS smooth scroll, Goal: Easy access to sections.
-    - Anschreiben: Formatted HTML text from the improved version, Goal: Present motivation.
-    - Lebenslauf (Persönliche Daten, Berufserfahrung, Ausbildung): HTML lists/cards, Goal: Structured CV info. Experience/Education presented chronologically.
-    - Sprachkenntnisse: Chart.js horizontal bar chart (Arabisch: Muttersprache 100%, Englisch: Fortgeschritten 80%, Deutsch: B1 60%, Französisch: Grundkenntnisse 30%), Goal: Visual proficiency display, Interaction: Tooltips. Library: Chart.js.
-    - EDV-Kenntnisse, Hobbys, Führerschein: HTML lists, Goal: Clear display of skills/other info.
-    - Kontakt: HTML text, Goal: Provide contact details.
+    - Photo: HTML img (placeholder), Goal: Personalization, Interaction: Subtle hover scale.
+    - Navigation: HTML links + JS smooth scroll, Goal: Easy access to sections. Mobile: Hamburger menu toggle for sidebar visibility.
+    - Anschreiben: Formatted HTML text from the improved version, Goal: Present motivation, Interaction: Scroll-fade-in.
+    - Lebenslauf (Persönliche Daten, Berufserfahrung, Ausbildung): HTML lists/cards, Goal: Structured CV info. Experience/Education presented chronologically, Interaction: Scroll-fade-in.
+    - Sprachkenntnisse: Chart.js horizontal bar chart (Arabisch: Muttersprache 100%, Englisch: Fortgeschritten 80%, Deutsch: B1 60%, Französisch: Grundkenntnisse 30%), Goal: Visual proficiency display, Interaction: Tooltips, Scroll-fade-in. Library: Chart.js.
+    - EDV-Kenntnisse, Hobbys, Führerschein: HTML lists/cards, Goal: Clear display of skills/other info, Interaction: Scroll-fade-in.
+    - Kontakt: HTML text, Goal: Provide contact details, Interaction: Scroll-fade-in.
+    - Back to Top Button: HTML button + JS scroll listener, Goal: Improved navigation on long pages.
     CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
-            font-family: 'Inter', sans-serif; /* Defaulting to Inter as per general instructions */
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
         }
-        /* Tailwind Customizations (if needed) */
         .scroll-smooth { scroll-behavior: smooth; }
         .sidebar-link {
             display: block;
@@ -28,17 +29,17 @@
             transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
         }
         .sidebar-link:hover, .sidebar-link.active {
-            background-color: #0891B2; /* cyan-600 */
+            background-color: #0e7490; /* cyan-700 for active/hover */
             color: white;
         }
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 600px; /* Max width for chart */
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            height: 250px; /* Base height */
-            max-height: 300px; /* Max height */
+            height: 250px;
+            max-height: 300px;
         }
         @media (min-width: 768px) {
             .chart-container {
@@ -46,37 +47,103 @@
             }
         }
         .content-section h2 {
-            font-size: 1.75rem; /* text-2xl */
-            font-weight: 600; /* semibold */
-            color: #0e7490; /* cyan-700 */
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #0e7490;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid #0e7490; /* cyan-700 */
+            border-bottom: 2px solid #0e7490;
         }
-         .content-section h3 {
-            font-size: 1.25rem; /* text-xl */
-            font-weight: 600; /* semibold */
-            color: #115e59; /* teal-700 adjusted, maybe use cyan-600 #0891B2 */
+        .content-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0891B2; /* Muted cyan-600 */
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
         }
         .card {
             background-color: white;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem; /* More rounded corners */
             padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            margin-bottom: 1rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* Stronger shadow */
+            margin-bottom: 1.5rem; /* More space between cards */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        /* Fade-in animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile specific styles for sidebar */
+        .sidebar-mobile-hidden {
+            transform: translateX(-100%);
+        }
+        .sidebar-mobile-visible {
+            transform: translateX(0);
+        }
+        @media (max-width: 767px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 75%; /* Adjust width for mobile sidebar */
+                height: 100%;
+                z-index: 50; /* Higher z-index to be on top of main content */
+                transition: transform 0.3s ease-in-out;
+            }
+            .main-content {
+                margin-left: 0;
+                padding-top: 4rem; /* Space for fixed top bar */
+            }
+            .hamburger-menu {
+                display: block; /* Show hamburger on mobile */
+            }
+        }
+        @media (min-width: 768px) {
+            .sidebar {
+                transform: translateX(0) !important; /* Ensure sidebar is always visible on desktop */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 64; /* w-64 */
+                height: 100%;
+            }
+            .main-content {
+                margin-left: 16rem; /* ml-64 */
+                padding-top: 0;
+            }
+            .hamburger-menu {
+                display: none; /* Hide hamburger on desktop */
+            }
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-stone-100 text-stone-800 scroll-smooth flex">
+<body class="bg-stone-100 text-stone-800 scroll-smooth flex flex-col md:flex-row">
 
-    <aside class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg p-6 flex flex-col space-y-6 overflow-y-auto">
+    <header class="md:hidden fixed top-0 left-0 w-full bg-white shadow-md p-4 flex justify-between items-center z-40">
+        <h1 class="text-xl font-bold text-cyan-700">Tariq Mojahdi</h1>
+        <button id="hamburgerBtn" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500">
+            <svg class="w-6 h-6 text-stone-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+    </header>
+
+    <aside id="sidebar" class="sidebar fixed top-0 left-0 w-64 h-full bg-white shadow-lg p-6 flex flex-col space-y-6 overflow-y-auto z-50 md:relative md:translate-x-0 sidebar-mobile-hidden">
         <div class="text-center">
-            <img src="https://placehold.co/128x128/E2E8F0/4A5568?text=Foto+T.M." alt="Foto Tariq Mojahdi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-600 object-cover">
+            <img src="https://placehold.co/128x128/E2E8F0/4A5568?text=Foto+T.M." alt="Foto Tariq Mojahdi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-600 object-cover transform transition-transform duration-300 hover:scale-105">
             <h1 class="text-2xl font-bold text-cyan-700">Tariq Mojahdi</h1>
             <p class="text-sm text-stone-600">Bewerbung als Hotelfachmann</p>
         </div>
@@ -94,9 +161,9 @@
         </div>
     </aside>
 
-    <main class="ml-64 p-8 md:p-12 w-full overflow-y-auto space-y-12">
+    <main class="main-content flex-grow p-8 md:p-12 w-full overflow-y-auto space-y-12 md:ml-64">
         
-        <section id="start" class="content-section min-h-screen flex flex-col justify-center">
+        <section id="start" class="content-section min-h-screen flex flex-col justify-center fade-in-section">
             <div class="card">
                 <h2 class="text-3xl md:text-4xl">Willkommen zu meiner interaktiven Bewerbung!</h2>
                 <p class="mt-4 text-lg text-stone-700">
@@ -110,7 +177,7 @@
             </div>
         </section>
 
-        <section id="anschreiben" class="content-section min-h-screen pt-16">
+        <section id="anschreiben" class="content-section min-h-screen pt-16 fade-in-section">
             <div class="card">
                 <h2>Anschreiben</h2>
                 <p class="text-stone-700 leading-relaxed">
@@ -133,7 +200,7 @@
             </div>
         </section>
 
-        <section id="lebenslauf" class="content-section min-h-screen pt-16">
+        <section id="lebenslauf" class="content-section min-h-screen pt-16 fade-in-section">
             <h2>Lebenslauf</h2>
             
             <div class="card">
@@ -186,7 +253,7 @@
             </div>
         </section>
 
-        <section id="kenntnisse" class="content-section min-h-screen pt-16">
+        <section id="kenntnisse" class="content-section min-h-screen pt-16 fade-in-section">
             <h2>Kenntnisse & Fähigkeiten</h2>
 
             <div class="card">
@@ -223,7 +290,7 @@
             </div>
         </section>
 
-        <section id="kontakt" class="content-section min-h-screen pt-16">
+        <section id="kontakt" class="content-section min-h-screen pt-16 fade-in-section">
             <div class="card">
                 <h2>Kontakt</h2>
                 <p class="text-stone-700 mb-6">
@@ -247,16 +314,34 @@
             </div>
         </section>
 
+        <button id="backToTopBtn" class="fixed bottom-8 right-8 bg-cyan-700 text-white p-3 rounded-full shadow-lg hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-opacity duration-300 opacity-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+        </button>
+
     </main>
 
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const sidebar = document.getElementById('sidebar');
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mainContent = document.querySelector('.main-content');
+
+        hamburgerBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-mobile-hidden');
+            sidebar.classList.toggle('sidebar-mobile-visible');
+        });
 
         function setActiveLink(element) {
             document.querySelectorAll('.sidebar-link').forEach(link => {
                 link.classList.remove('active');
             });
             element.classList.add('active');
+            // Close sidebar on mobile after clicking a link
+            if (window.innerWidth < 768) {
+                sidebar.classList.add('sidebar-mobile-hidden');
+                sidebar.classList.remove('sidebar-mobile-visible');
+            }
         }
 
         // Smooth scroll for internal links
@@ -273,15 +358,38 @@
             });
         });
         
-        // Set active link on scroll
+        // Set active link on scroll and handle fade-in sections
         const sections = document.querySelectorAll('.content-section');
         const navLinks = document.querySelectorAll('.sidebar-link');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the section is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                } else {
+                    entry.target.classList.remove('is-visible'); // Optional: fade out when not visible
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
 
         window.onscroll = () => {
             let current = '';
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 60) { // 60px offset
+                // Adjust offset based on fixed header height on mobile
+                const offset = window.innerWidth < 768 ? 100 : 60;
+                if (pageYOffset >= sectionTop - offset) {
                     current = section.getAttribute('id');
                 }
             });
@@ -292,23 +400,37 @@
                     link.classList.add('active');
                 }
             });
+
+            // Show/hide back to top button
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.classList.remove('opacity-0');
+            } else {
+                backToTopBtn.classList.add('opacity-0');
+            }
         };
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
 
 
         // Chart.js for Language Skills
         const ctx = document.getElementById('languageSkillsChart').getContext('2d');
         const languageSkillsChart = new Chart(ctx, {
-            type: 'bar', // Horizontal bar chart
+            type: 'bar',
             data: {
                 labels: ['Arabisch', 'Englisch', 'Deutsch (B1)', 'Französisch'],
                 datasets: [{
                     label: 'Sprachniveau',
-                    data: [100, 80, 60, 30], // Muttersprache (100), Fortgeschritten (80), B1 (60), Grundkenntnisse (30)
+                    data: [100, 80, 60, 30],
                     backgroundColor: [
-                        'rgba(59, 130, 246, 0.7)', // blue-500
-                        'rgba(16, 185, 129, 0.7)', // emerald-500
-                        'rgba(239, 68, 68, 0.7)',  // red-500
-                        'rgba(249, 115, 22, 0.7)'  // orange-500
+                        'rgba(59, 130, 246, 0.8)', /* blue-500, slightly more opaque */
+                        'rgba(16, 185, 129, 0.8)', /* emerald-500, slightly more opaque */
+                        'rgba(239, 68, 68, 0.8)',  /* red-500, slightly more opaque */
+                        'rgba(249, 115, 22, 0.8)'  /* orange-500, slightly more opaque */
                     ],
                     borderColor: [
                         'rgba(59, 130, 246, 1)',
@@ -320,7 +442,7 @@
                 }]
             },
             options: {
-                indexAxis: 'y', // This makes it a horizontal bar chart
+                indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
@@ -331,26 +453,32 @@
                             callback: function(value) {
                                 return value + "%"
                             }
+                        },
+                        grid: {
+                            display: false /* Hide x-axis grid lines */
                         }
                     },
                     y: {
                         ticks: {
                              font: {
-                                size: 10 // Adjust font size for y-axis labels if needed
+                                size: 12 /* Slightly larger font for y-axis labels */
                             },
                              callback: function(value, index, values) {
                                 const label = this.getLabelForValue(value);
-                                if (label.length > 16) { // Wrap label if longer than 16 chars
+                                if (label.length > 16) {
                                     return label.match(/.{1,16}/g);
                                 }
                                 return label;
                             }
+                        },
+                        grid: {
+                            display: false /* Hide y-axis grid lines */
                         }
                     }
                 },
                 plugins: {
                     legend: {
-                        display: false // Hiding legend as it's clear from axis
+                        display: false
                     },
                     tooltip: {
                         callbacks: {
