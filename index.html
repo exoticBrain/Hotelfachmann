@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Visualization & Content Choices:
-    - Background Image: High-quality, subtle hotel-themed image with a dark overlay for readability. Goal: Aesthetic appeal, thematic alignment.
     - Photo: HTML img (placeholder), Goal: Personalization, Interaction: Subtle hover scale.
     - Navigation: HTML links + JS smooth scroll, Goal: Easy access to sections. Mobile: Hamburger menu toggle for sidebar visibility.
     - Anschreiben: Formatted HTML text from the improved version, Goal: Present motivation, Interaction: Scroll-fade-in.
@@ -22,22 +21,9 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden; /* Prevent horizontal scroll due to animations */
             background-color: #f5f5f4; /* stone-100 fallback */
-            background-image: url('https://placehold.co/1920x1080/262626/F5F5F4?text=Luxurious+Hotel+Lobby'); /* Placeholder for a luxurious hotel lobby */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Fixes the background image during scroll */
-            position: relative; /* Needed for pseudo-element overlay */
+            /* Removed background image and related properties */
         }
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4); /* Dark overlay for readability */
-            z-index: -1; /* Place behind content */
-        }
+        /* Removed body::before pseudo-element for overlay */
         .scroll-smooth { scroll-behavior: smooth; }
         .sidebar-link {
             display: block;
@@ -66,8 +52,8 @@
         }
         .content-section h2 {
             font-size: 1.75rem;
-            font-weight: 700; /* Bolder headings */
-            color: #FFD700; /* Gold accent for main headings */
+            font-weight: 600; /* Reverted to semibold */
+            color: #0e7490; /* Reverted to cyan-700 */
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #0e7490; /* cyan-700 border */
@@ -80,24 +66,24 @@
             margin-bottom: 0.75rem;
         }
         .card {
-            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white for content cards */
+            background-color: white; /* Reverted to solid white */
             border-radius: 0.75rem;
             padding: 1.5rem;
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2), 0 4px 8px -4px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* Reverted shadow */
             margin-bottom: 1.5rem;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            border: 1px solid rgba(255, 215, 0, 0.2); /* Subtle gold border */
+            border: none; /* Removed gold border */
         }
         .card:hover {
-            transform: translateY(-8px); /* More noticeable lift */
-            box-shadow: 0 25px 40px -8px rgba(0, 0, 0, 0.3), 0 10px 15px -6px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px); /* Reverted lift */
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); /* Reverted hover shadow */
         }
 
         /* Fade-in animation */
         .fade-in-section {
             opacity: 0;
-            transform: translateY(30px); /* More pronounced initial translateY */
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Slower transition */
+            transform: translateY(20px); /* Reverted initial translateY */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Reverted transition speed */
         }
         .fade-in-section.is-visible {
             opacity: 1;
@@ -162,7 +148,7 @@
 
     <aside id="sidebar" class="sidebar fixed top-0 left-0 w-64 h-full bg-white shadow-lg p-6 flex flex-col space-y-6 overflow-y-auto z-50 md:relative md:translate-x-0 sidebar-mobile-hidden">
         <div class="text-center">
-            <img src="./Pic.png" alt="Foto Tariq Mojahdi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-amber-400 object-cover transform transition-transform duration-300 hover:scale-105">
+            <img src="./Pic.png" alt="Foto Tariq Mojahdi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-600 object-cover transform transition-transform duration-300 hover:scale-105">
             <h1 class="text-2xl font-bold text-cyan-700">Tariq Mojahdi</h1>
             <p class="text-sm text-stone-600">Bewerbung als Hotelfachmann</p>
         </div>
