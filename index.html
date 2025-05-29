@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Visualization & Content Choices:
-    - Homepage Hero Section: Full-screen background image (placeholder) with an overlay, bold headline, and CTA. Goal: Instant visual impact, thematic alignment. Interaction: None (visual).
+    - Homepage Hero Section: Full-screen background image (abstract pattern placeholder) with an overlay, bold headline, and CTA. Goal: Instant visual impact, thematic alignment, improved mobile adaptability, and a visually split layout on desktop with background extending behind sidebar. Interaction: None (visual).
     - Photo: HTML img (placeholder), Goal: Personalization, Interaction: Subtle hover scale.
     - Navigation: HTML links + JS smooth scroll, Goal: Easy access to sections. Mobile: Hamburger menu toggle for sidebar visibility.
     - Anschreiben: Formatted HTML text, Goal: Present motivation, Interaction: Scroll-fade-in.
@@ -81,19 +81,19 @@
 
         /* Hero Section Specific Styles */
         .hero-section {
-            background-image: url('./waiters.jpg'); /* Placeholder for a professional hotel environment */
+            background-image: url('waiters.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
+            justify-content: center; /* Default for mobile */
+            text-align: center; /* Default for mobile */
             color: white;
             min-height: 100vh;
             padding: 2rem;
-            z-index: 1;
+            z-index: 1; /* Ensure it's below sidebar but above body background */
         }
         .hero-section::before {
             content: '';
@@ -106,7 +106,7 @@
             z-index: -1;
         }
         .hero-content {
-            max-width: 800px;
+            max-width: 800px; /* Max width for content */
             z-index: 10;
         }
         .hero-content h1 {
@@ -185,13 +185,29 @@
                 left: 0;
                 width: 64; /* w-64 */
                 height: 100vh;
+                z-index: 20; /* Ensure sidebar is above hero background */
             }
+            /* Removed margin-left from main, as hero-section will span full width */
             .main-content {
-                margin-left: 16rem; /* ml-64 */
                 padding-top: 0;
+                /* No margin-left here, hero-section will handle its own content alignment */
             }
             .hamburger-menu {
                 display: none;
+            }
+            /* Desktop specific hero section content alignment */
+            .hero-section {
+                justify-content: flex-start; /* Align content to the left */
+                /* Span full width of the parent (body) */
+                width: 100vw; /* Take full viewport width */
+                margin-left: calc(-1 * var(--tw-ml-64)); /* Counteract main's margin-left if it were there, but main is now full width */
+            }
+            .hero-content {
+                text-align: left; /* Align text to the left */
+                width: 50%; /* Take up half the width of the hero section */
+                max-width: 500px; /* Limit max width for readability */
+                /* Push content to the right, accounting for sidebar width */
+                margin-left: calc(16rem + 5rem); /* Sidebar width (16rem) + existing ml-20 (5rem) */
             }
         }
     </style>
@@ -210,7 +226,7 @@
 
     <aside id="sidebar" class="sidebar fixed top-0 left-0 w-64 h-full bg-white shadow-lg p-6 flex flex-col space-y-6 overflow-y-auto z-50 md:relative md:translate-x-0 sidebar-mobile-hidden">
         <div class="text-center">
-            <img src="./Pic.png" alt="Foto Tariq Mojahdi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-600 object-cover transform transition-transform duration-300 hover:scale-105">
+            <img src="Pic.png" alt="Foto Tariq Mojahdi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-600 object-cover transform transition-transform duration-300 hover:scale-105">
             <h1 class="text-2xl font-bold text-cyan-700">Tariq Mojahdi</h1>
             <p class="text-sm text-stone-600">Bewerbung als Hotelfachmann</p>
         </div>
@@ -228,7 +244,7 @@
         </div>
     </aside>
 
-    <main class="main-content flex-grow w-full overflow-y-auto md:ml-64">
+    <main class="main-content flex-grow w-full overflow-y-auto">
         
         <section id="start" class="hero-section">
             <div class="hero-content">
@@ -238,7 +254,7 @@
             </div>
         </section>
 
-        <div class="p-8 md:p-12 space-y-12"> <section id="anschreiben" class="content-section fade-in-section">
+        <div class="p-8 md:p-12 space-y-12 md:ml-64"> <section id="anschreiben" class="content-section fade-in-section">
                 <div class="card">
                     <h2>Anschreiben</h2>
                     <p class="text-stone-700 leading-relaxed">
@@ -248,7 +264,7 @@
                         <br><br>
                         Während meiner Praktika im Servicebereich bei J-Yane Event und Mahane Multi-Service konnte ich bereits wertvolle Einblicke in die Gastronomie und den Gästeservice gewinnen. Diese Erfahrungen haben mir gezeigt, wie entscheidend ein professionelles, höfliches und serviceorientiertes Auftreten ist – insbesondere in herausfordernden Situationen. Der direkte Kontakt zu den Gästen hat mir dabei stets große Freude bereitet, da ich gerne mit Menschen arbeite und die vielfältigen Anforderungen des Hotelalltags schätze.
                         <br><br>
-                        Meine Ausbildung im Fach Tourismus und Hotellerie an der IAMTEC sowie mein schulischer Hintergrund im Bereich Wirtschaft bilden ein solides Fundament für die anspruchsvollen Aufgaben dieser Ausbildung. Ergänzend dazu verfüge ich über gute Deutschkenntnisse (B1-Zertifikat - OSD), solide Englischkenntnisse und einen sicheren Umgang mit MS Office. Ich bin ein schneller Lerner und stets bereit, mich neuen Herausforderungen engagiert zu stellen.
+                        Meine Ausbildung im Fach Tourismus und Hotelfachmann an der IAMTEC sowie mein schulischer Hintergrund im Bereich Wirtschaft bilden ein solides Fundament für die anspruchsvollen Aufgaben dieser Ausbildung. Ergänzend dazu verfüge ich über gute Deutschkenntnisse (B1-Zertifikat - OSD), solide Englischkenntnisse und einen sicheren Umgang mit MS Office. Ich bin ein schneller Lerner und stets bereit, mich neuen Herausforderungen engagiert zu stellen.
                         <br><br>
                         Besonders motiviert mich die Aussicht, in einem internationalen Umfeld tätig zu sein, in dem Organisationstalent, ausgeprägte Kommunikationsfähigkeit und Teamgeist unerlässlich sind. Ich bin zuverlässig, freundlich und bewahre auch in stressigen Momenten einen klaren Kopf. Dank meiner offenen Persönlichkeit und meines gepflegten Erscheinungsbildes fällt es mir leicht, mich in neue Teams zu integrieren und für die Gäste eine angenehme und einladende Atmosphäre zu schaffen.
                         <br><br>
@@ -298,7 +314,7 @@
                     <h3>Ausbildung</h3>
                      <div class="space-y-4">
                         <div>
-                            <h4 class="font-semibold text-cyan-700">Ausbildung im Fach Tourismus und Hotellerie</h4>
+                            <h4 class="font-semibold text-cyan-700">Ausbildung im Fach Tourismus und Hotelfachmann</h4>
                             <p class="text-sm text-stone-600">IAMTEC | Seit 01.02.2024</p>
                         </div>
                         <div>
@@ -391,7 +407,8 @@
 
         const sidebar = document.getElementById('sidebar');
         const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const mainContent = document.querySelector('main'); // Target the main element
+        // mainContent is no longer directly used for ml-64, it's on the wrapper div
+        // const mainContent = document.querySelector('main'); 
 
         hamburgerBtn.addEventListener('click', () => {
             sidebar.classList.toggle('sidebar-mobile-hidden');
@@ -499,11 +516,11 @@
         function showExperienceDetails(experienceType) {
             let details = '';
             if (experienceType === 'reception') {
-                details = "Details zum Praktikum Reception & Kundenverwaltung:\n\n- Unterstützung bei Check-in/Check-out Prozessen.\n- Bearbeitung von Gästeanfragen und Beschwerden.\n- Verwaltung von Reservierungen und Kundendatenbanken.\n- Beitrag zur Verbesserung der Gästezufriedenheit um X%.";
+                details = "Details zum Praktikum Reception & Kundenverwaltung:\n\n- Unterstützung bei Check-in/Check-out Prozessen.\n- Bearbeitung von Gästeanfragen und Beschwerden.\n- Verwaltung von Reservierungen und Kundendatenbanken.\n- Beitrag zur Verbesserung der Gästezufriedenheit um X%. (Hier könnten Sie konkrete Zahlen einfügen)";
             } else if (experienceType === 'waiter') {
-                details = "Details zum Praktikum als Kellner:\n\n- Service am Gast in verschiedenen Restaurantbereichen.\n- Aufnahme von Bestellungen und Servieren von Speisen und Getränken.\n- Sicherstellung eines reibungslosen Ablaufs im Servicebereich.\n- Erhalt von Y positiven Kundenrückmeldungen.";
+                details = "Details zum Praktikum als Kellner:\n\n- Service am Gast in verschiedenen Restaurantbereichen.\n- Aufnahme von Bestellungen und Servieren von Speisen und Getränken.\n- Sicherstellung eines reibungslosen Ablaufs im Servicebereich.\n- Erhalt von Y positiven Kundenrückmeldungen. (Hier könnten Sie konkrete Zahlen einfügen)";
             } else if (experienceType === 'logistics') {
-                details = "Details zum Praktikum für Logistik und Operationen:\n\n- Unterstützung bei der Koordination von Lieferketten.\n- Bestandsverwaltung und Optimierung von Lagerprozessen.\n- Beitrag zur Effizienzsteigerung der Operationen um Z%.";
+                details = "Details zum Praktikum für Logistik und Operationen:\n\n- Unterstützung bei der Koordination von Lieferketten.\n- Bestandsverwaltung und Optimierung von Lagerprozessen.\n- Beitrag zur Effizienzsteigerung der Operationen um Z%. (Hier könnten Sie konkrete Zahlen einfügen)";
             }
             // Using alert for demonstration as per instructions, but in a real app, this would be a custom modal.
             alert(details);
