@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktive Bewerbung - Tariq Mojahdi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+    - Photo: HTML img (placeholder - actual image from PDF page 2 should be used), Goal: Personalization, Interaction: None.
+    - Navigation: HTML links + JS smooth scroll, Goal: Easy access to sections.
+    - Anschreiben: Formatted HTML text from the improved version, Goal: Present motivation.
+    - Lebenslauf (Persönliche Daten, Berufserfahrung, Ausbildung): HTML lists/cards, Goal: Structured CV info. Experience/Education presented chronologically.
+    - Sprachkenntnisse: Chart.js horizontal bar chart (Arabisch: Muttersprache 100%, Englisch: Fortgeschritten 80%, Deutsch: B1 60%, Französisch: Grundkenntnisse 30%), Goal: Visual proficiency display, Interaction: Tooltips. Library: Chart.js.
+    - EDV-Kenntnisse, Hobbys, Führerschein: HTML lists, Goal: Clear display of skills/other info.
+    - Kontakt: HTML text, Goal: Provide contact details.
+    CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* Defaulting to Inter as per general instructions */
+        }
+        /* Tailwind Customizations (if needed) */
+        .scroll-smooth { scroll-behavior: smooth; }
+        .sidebar-link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #0891B2; /* cyan-600 */
+            color: white;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Max width for chart */
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px; /* Base height */
+            max-height: 300px; /* Max height */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .content-section h2 {
+            font-size: 1.75rem; /* text-2xl */
+            font-weight: 600; /* semibold */
+            color: #0e7490; /* cyan-700 */
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #0e7490; /* cyan-700 */
+        }
+         .content-section h3 {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* semibold */
+            color: #115e59; /* teal-700 adjusted, maybe use cyan-600 #0891B2 */
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            margin-bottom: 1rem;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-stone-100 text-stone-800 scroll-smooth flex">
+
+    <aside class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg p-6 flex flex-col space-y-6 overflow-y-auto">
+        <div class="text-center">
+            <img src="https://placehold.co/128x128/E2E8F0/4A5568?text=Foto+T.M." alt="Foto Tariq Mojahdi" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-600 object-cover">
+            <h1 class="text-2xl font-bold text-cyan-700">Tariq Mojahdi</h1>
+            <p class="text-sm text-stone-600">Bewerbung als Hotelfachmann</p>
+        </div>
+        <nav class="mt-8">
+            <ul class="space-y-2">
+                <li><a href="#start" class="sidebar-link active" onclick="setActiveLink(this)">Startseite</a></li>
+                <li><a href="#anschreiben" class="sidebar-link" onclick="setActiveLink(this)">Anschreiben</a></li>
+                <li><a href="#lebenslauf" class="sidebar-link" onclick="setActiveLink(this)">Lebenslauf</a></li>
+                <li><a href="#kenntnisse" class="sidebar-link" onclick="setActiveLink(this)">Kenntnisse</a></li>
+                <li><a href="#kontakt" class="sidebar-link" onclick="setActiveLink(this)">Kontakt</a></li>
+            </ul>
+        </nav>
+        <div class="mt-auto text-center text-xs text-stone-500">
+            <p>&copy; <span id="currentYear"></span> Tariq Mojahdi</p>
+        </div>
+    </aside>
+
+    <main class="ml-64 p-8 md:p-12 w-full overflow-y-auto space-y-12">
+        
+        <section id="start" class="content-section min-h-screen flex flex-col justify-center">
+            <div class="card">
+                <h2 class="text-3xl md:text-4xl">Willkommen zu meiner interaktiven Bewerbung!</h2>
+                <p class="mt-4 text-lg text-stone-700">
+                    Ich freue mich über Ihr Interesse an meiner Bewerbung um einen Ausbildungsplatz als Hotelfachmann.
+                    Diese Seite bietet Ihnen einen umfassenden Überblick über meine Qualifikationen, Erfahrungen und meine Motivation.
+                    Navigieren Sie einfach über die Menüpunkte auf der linken Seite, um mehr zu erfahren.
+                </p>
+                <p class="mt-4 text-lg text-stone-700">
+                    Ich bin überzeugt, dass meine Leidenschaft für die Hotellerie und mein Engagement mich zu einem wertvollen Mitglied Ihres Teams machen werden.
+                </p>
+            </div>
+        </section>
+
+        <section id="anschreiben" class="content-section min-h-screen pt-16">
+            <div class="card">
+                <h2>Anschreiben</h2>
+                <p class="text-stone-700 leading-relaxed">
+                    Sehr geehrte Damen und Herren,
+                    <br><br>
+                    mit großem Interesse und Begeisterung bewerbe ich mich hiermit um einen Ausbildungsplatz als Hotelfachmann in Ihrem renommierten Haus. Die Arbeit in der Hotellerie ist für mich nicht nur ein Beruf, sondern eine echte Leidenschaft, die ich durch meine bisherigen praktischen Erfahrungen und meine fundierte Ausbildung stetig weiterentwickelt habe.
+                    <br><br>
+                    Während meiner Praktika im Servicebereich bei J-Yane Event und Mahane Multi-Service konnte ich bereits wertvolle Einblicke in die Gastronomie und den Gästeservice gewinnen. Diese Erfahrungen haben mir gezeigt, wie entscheidend ein professionelles, höfliches und serviceorientiertes Auftreten ist – insbesondere in herausfordernden Situationen. Der direkte Kontakt zu den Gästen hat mir dabei stets große Freude bereitet, da ich gerne mit Menschen arbeite und die vielfältigen Anforderungen des Hotelalltags schätze.
+                    <br><br>
+                    Meine Ausbildung im Fach Tourismus und Hotellerie an der IAMTEC sowie mein schulischer Hintergrund im Bereich Wirtschaft bilden ein solides Fundament für die anspruchsvollen Aufgaben dieser Ausbildung. Ergänzend dazu verfüge ich über gute Deutschkenntnisse (B1-Zertifikat - OSD), solide Englischkenntnisse und einen sicheren Umgang mit MS Office. Ich bin ein schneller Lerner und stets bereit, mich neuen Herausforderungen engagiert zu stellen.
+                    <br><br>
+                    Besonders motiviert mich die Aussicht, in einem internationalen Umfeld tätig zu sein, in dem Organisationstalent, ausgeprägte Kommunikationsfähigkeit und Teamgeist unerlässlich sind. Ich bin zuverlässig, freundlich und bewahre auch in stressigen Momenten einen klaren Kopf. Dank meiner offenen Persönlichkeit und meines gepflegten Erscheinungsbildes fällt es mir leicht, mich in neue Teams zu integrieren und für die Gäste eine angenehme und einladende Atmosphäre zu schaffen.
+                    <br><br>
+                    Ich bin fest davon überzeugt, dass ich mit meiner hohen Motivation, meinem Engagement und meiner positiven Arbeitseinstellung eine wertvolle Bereicherung für Ihr Team sein werde. Über die Möglichkeit, mich in einem persönlichen Gespräch vorzustellen, würde ich mich sehr freuen.
+                    <br><br>
+                    Mit freundlichen Grüßen
+                    <br>
+                    Tariq Mojahdi
+                </p>
+            </div>
+        </section>
+
+        <section id="lebenslauf" class="content-section min-h-screen pt-16">
+            <h2>Lebenslauf</h2>
+            
+            <div class="card">
+                <h3>Persönliche Daten</h3>
+                <ul class="list-disc list-inside text-stone-700 space-y-1">
+                    <li><strong>Geburtsdatum & -ort:</strong> 20.09.2001 in Ain Chkeff / Marokko</li>
+                    <li><strong>Familienstand:</strong> Ledig</li>
+                    <li><strong>Staatsangehörigkeit:</strong> Marokkanisch</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Berufserfahrungen</h3>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-semibold text-cyan-700">Praktikum im Bereich Reception & Kundenverwaltung</h4>
+                        <p class="text-sm text-stone-600">J-Yane Event | 17.01.2025 - 04.03.2025 <span class="italic text-xs">(Zukünftiges Praktikum)</span></p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-cyan-700">Praktikum als Kellner</h4>
+                        <p class="text-sm text-stone-600">MMS- Mahane Multi-Service | 15.07.2024 - 15.01.2025 <span class="italic text-xs">(Beginnend Juli 2024)</span></p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-cyan-700">Praktikant für Logistik und Operationen</h4>
+                        <p class="text-sm text-stone-600">ARCHITRUCK | 01.01.2023 - 01.06.2023</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Ausbildung</h3>
+                 <div class="space-y-4">
+                    <div>
+                        <h4 class="font-semibold text-cyan-700">Ausbildung im Fach Tourismus und Hotellerie</h4>
+                        <p class="text-sm text-stone-600">IAMTEC | Seit 01.02.2024</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-cyan-700">Leistungsnachweis im Bereich Software Engineering</h4>
+                        <p class="text-sm text-stone-600">Hochshule ingenieurwessen für angewandte Weissenschaften | 2020 - 2021</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-cyan-700">Abitur in der Fachrichtung Wirtschaftwissenschaften</h4>
+                        <p class="text-sm text-stone-600">Salah Eddine Al Ayoubi | Abschluss 06.2019</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-cyan-700">Zertifikat B1 Deutsch</h4>
+                        <p class="text-sm text-stone-600">ÖSD | Erworben 01.03.2019</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kenntnisse" class="content-section min-h-screen pt-16">
+            <h2>Kenntnisse & Fähigkeiten</h2>
+
+            <div class="card">
+                <h3>Sprachkenntnisse</h3>
+                <p class="text-stone-700 mb-4">Hier sehen Sie eine Visualisierung meiner Sprachkenntnisse. Ich bin motiviert, meine Deutschkenntnisse kontinuierlich zu verbessern.</p>
+                <div class="chart-container">
+                    <canvas id="languageSkillsChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                <div class="card">
+                    <h3>EDV-Kenntnisse</h3>
+                    <ul class="list-disc list-inside text-stone-700 space-y-1">
+                        <li>MS Office (Word, Excel, PowerPoint)</li>
+                        <li>Datenbankkenntnisse (SQL, Access)</li>
+                        <li>Grundkenntnisse in Webdesign</li>
+                        <li>IT-Netzwerke</li>
+                        <li>Planungstools</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Weitere Fähigkeiten & Interessen</h3>
+                     <h4 class="font-semibold text-cyan-700 mt-0 mb-2">Führerschein</h4>
+                    <p class="text-stone-700 mb-4">Klasse B</p>
+
+                    <h4 class="font-semibold text-cyan-700 mt-4 mb-2">Hobbys</h4>
+                    <ul class="list-disc list-inside text-stone-700 space-y-1">
+                        <li>Breakdance</li>
+                        <li>Beatmaking</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="kontakt" class="content-section min-h-screen pt-16">
+            <div class="card">
+                <h2>Kontakt</h2>
+                <p class="text-stone-700 mb-6">
+                    Ich hoffe, diese interaktive Bewerbung hat Ihnen einen guten Eindruck von mir vermitteln können.
+                    Für Rückfragen oder zur Vereinbarung eines persönlichen Gesprächs stehe ich Ihnen gerne zur Verfügung.
+                </p>
+                <div class="space-y-3">
+                    <p class="flex items-center text-stone-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-600" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
+                        tariqmj1337@gmail.com
+                    </p>
+                    <p class="flex items-center text-stone-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-600" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+                        +212651727767
+                    </p>
+                    <p class="flex items-center text-stone-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg>
+                        N 35 Lot Baraka Hay Massira Fes / Marokko
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        function setActiveLink(element) {
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Set active link on scroll
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.sidebar-link');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { // 60px offset
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        };
+
+
+        // Chart.js for Language Skills
+        const ctx = document.getElementById('languageSkillsChart').getContext('2d');
+        const languageSkillsChart = new Chart(ctx, {
+            type: 'bar', // Horizontal bar chart
+            data: {
+                labels: ['Arabisch', 'Englisch', 'Deutsch (B1)', 'Französisch'],
+                datasets: [{
+                    label: 'Sprachniveau',
+                    data: [100, 80, 60, 30], // Muttersprache (100), Fortgeschritten (80), B1 (60), Grundkenntnisse (30)
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.7)', // blue-500
+                        'rgba(16, 185, 129, 0.7)', // emerald-500
+                        'rgba(239, 68, 68, 0.7)',  // red-500
+                        'rgba(249, 115, 22, 0.7)'  // orange-500
+                    ],
+                    borderColor: [
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(239, 68, 68, 1)',
+                        'rgba(249, 115, 22, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y', // This makes it a horizontal bar chart
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + "%"
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                             font: {
+                                size: 10 // Adjust font size for y-axis labels if needed
+                            },
+                             callback: function(value, index, values) {
+                                const label = this.getLabelForValue(value);
+                                if (label.length > 16) { // Wrap label if longer than 16 chars
+                                    return label.match(/.{1,16}/g);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // Hiding legend as it's clear from axis
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.x !== null) {
+                                    let levelText = "";
+                                    if (context.label === 'Arabisch') levelText = "Muttersprache";
+                                    else if (context.label === 'Englisch') levelText = "Fortgeschritten";
+                                    else if (context.label === 'Deutsch (B1)') levelText = "B1 Niveau";
+                                    else if (context.label === 'Französisch') levelText = "Grundkenntnisse";
+                                    label += `${levelText} (${context.parsed.x}%)`;
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
