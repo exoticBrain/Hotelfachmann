@@ -7,11 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Visualization & Content Choices:
+    - Homepage Hero Section: Full-screen background image (placeholder) with an overlay, bold headline, and CTA. Goal: Instant visual impact, thematic alignment. Interaction: None (visual).
     - Photo: HTML img (placeholder), Goal: Personalization, Interaction: Subtle hover scale.
     - Navigation: HTML links + JS smooth scroll, Goal: Easy access to sections. Mobile: Hamburger menu toggle for sidebar visibility.
-    - Anschreiben: Formatted HTML text from the improved version, Goal: Present motivation, Interaction: Scroll-fade-in.
+    - Anschreiben: Formatted HTML text, Goal: Present motivation, Interaction: Scroll-fade-in.
     - Lebenslauf (Persönliche Daten, Berufserfahrung, Ausbildung): HTML lists/cards, Goal: Structured CV info. Experience/Education presented chronologically, Interaction: Scroll-fade-in.
-    - Sprachkenntnisse: Chart.js horizontal bar chart (Arabisch: Muttersprache 100%, Englisch: Fortgeschritten 80%, Deutsch: B1 60%, Französisch: Grundkenntnisse 30%), Goal: Visual proficiency display, Interaction: Tooltips, Scroll-fade-in. Library: Chart.js.
+    - Experience Details: Conceptualized as a clickable module (using a JS alert for demonstration). Goal: Allow deep-dive into quantifiable achievements. Interaction: Click to show details.
+    - Sprachkenntnisse: Chart.js horizontal bar chart, Goal: Visual proficiency display, Interaction: Tooltips, Scroll-fade-in. Library: Chart.js.
     - EDV-Kenntnisse, Hobbys, Führerschein: HTML lists/cards, Goal: Clear display of skills/other info, Interaction: Scroll-fade-in.
     - Kontakt: HTML text, Goal: Provide contact details, Interaction: Scroll-fade-in.
     - Back to Top Button: HTML button + JS scroll listener, Goal: Improved navigation on long pages.
@@ -21,9 +23,7 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden; /* Prevent horizontal scroll due to animations */
             background-color: #f5f5f4; /* stone-100 fallback */
-            /* Removed background image and related properties */
         }
-        /* Removed body::before pseudo-element for overlay */
         .scroll-smooth { scroll-behavior: smooth; }
         .sidebar-link {
             display: block;
@@ -52,11 +52,11 @@
         }
         .content-section h2 {
             font-size: 1.75rem;
-            font-weight: 600; /* Reverted to semibold */
-            color: #0e7490; /* Reverted to cyan-700 */
+            font-weight: 700; /* Bolder headings */
+            color: #0e7490; /* Teal-700 */
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid #0e7490; /* cyan-700 border */
+            border-bottom: 2px solid #0e7490; /* Teal-700 border */
         }
         .content-section h3 {
             font-size: 1.25rem;
@@ -66,24 +66,80 @@
             margin-bottom: 0.75rem;
         }
         .card {
-            background-color: white; /* Reverted to solid white */
+            background-color: white;
             border-radius: 0.75rem;
             padding: 1.5rem;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* Reverted shadow */
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
             margin-bottom: 1.5rem;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            border: none; /* Removed gold border */
+            border: 1px solid rgba(20, 184, 166, 0.2); /* Subtle teal border */
         }
         .card:hover {
-            transform: translateY(-5px); /* Reverted lift */
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); /* Reverted hover shadow */
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        /* Hero Section Specific Styles */
+        .hero-section {
+            background-image: url('https://placehold.co/1920x1080/0f766e/ffffff?text=Professional+Hotel+Environment'); /* Placeholder for a professional hotel environment */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            min-height: 100vh;
+            padding: 2rem;
+            z-index: 1;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Dark overlay */
+            z-index: -1;
+        }
+        .hero-content {
+            max-width: 800px;
+            z-index: 10;
+        }
+        .hero-content h1 {
+            font-size: 3rem; /* text-5xl */
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero-content p {
+            font-size: 1.25rem; /* text-xl */
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        .hero-content .cta-button {
+            background-color: #fbbf24; /* amber-400 */
+            color: #134e4a; /* teal-900 */
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            display: inline-block;
+        }
+        .hero-content .cta-button:hover {
+            background-color: #f59e0b; /* amber-500 */
+            transform: translateY(-3px);
         }
 
         /* Fade-in animation */
         .fade-in-section {
             opacity: 0;
-            transform: translateY(20px); /* Reverted initial translateY */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Reverted transition speed */
+            transform: translateY(30px); /* More pronounced initial translateY */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Slower transition */
         }
         .fade-in-section.is-visible {
             opacity: 1;
@@ -114,6 +170,12 @@
             .hamburger-menu {
                 display: block;
             }
+            .hero-content h1 {
+                font-size: 2.25rem; /* text-4xl on mobile */
+            }
+            .hero-content p {
+                font-size: 1rem; /* text-base on mobile */
+            }
         }
         @media (min-width: 768px) {
             .sidebar {
@@ -135,7 +197,7 @@
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;500;700;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-stone-100 text-stone-800 scroll-smooth flex flex-col md:flex-row">
 
@@ -166,158 +228,157 @@
         </div>
     </aside>
 
-    <main class="main-content flex-grow p-8 md:p-12 w-full overflow-y-auto space-y-12 md:ml-64">
+    <main class="main-content flex-grow w-full overflow-y-auto md:ml-64">
         
-        <section id="start" class="content-section min-h-screen flex flex-col justify-center fade-in-section">
-            <div class="card">
-                <h2 class="text-3xl md:text-4xl">Willkommen zu meiner interaktiven Bewerbung!</h2>
-                <p class="mt-4 text-lg text-stone-700">
-                    Ich freue mich über Ihr Interesse an meiner Bewerbung um einen Ausbildungsplatz als Hotelfachmann.
-                    Diese Seite bietet Ihnen einen umfassenden Überblick über meine Qualifikationen, Erfahrungen und meine Motivation.
-                    Navigieren Sie einfach über die Menüpunkte auf der linken Seite, um mehr zu erfahren.
-                </p>
-                <p class="mt-4 text-lg text-stone-700">
-                    Ich bin überzeugt, dass meine Leidenschaft für die Hotellerie und mein Engagement mich zu einem wertvollen Mitglied Ihres Teams machen werden.
-                </p>
+        <section id="start" class="hero-section">
+            <div class="hero-content">
+                <h1>Ihre Suche nach Exzellenz endet hier.</h1>
+                <p>Als angehender Hotelfachmann bringe ich Leidenschaft für erstklassigen Gästeservice und ein Auge für jedes Detail mit.</p>
+                <a href="#anschreiben" class="cta-button" onclick="setActiveLink(document.querySelector('.sidebar-link[href=\'#anschreiben\']'))">Meine Bewerbung erkunden</a>
             </div>
         </section>
 
-        <section id="anschreiben" class="content-section min-h-screen pt-16 fade-in-section">
-            <div class="card">
-                <h2>Anschreiben</h2>
-                <p class="text-stone-700 leading-relaxed">
-                    Sehr geehrte Damen und Herren,
-                    <br><br>
-                    mit großem Interesse und Begeisterung bewerbe ich mich hiermit um einen Ausbildungsplatz als Hotelfachmann in Ihrem renommierten Haus. Die Arbeit in der Hotellerie ist für mich nicht nur ein Beruf, sondern eine echte Leidenschaft, die ich durch meine bisherigen praktischen Erfahrungen und meine fundierte Ausbildung stetig weiterentwickelt habe.
-                    <br><br>
-                    Während meiner Praktika im Servicebereich bei J-Yane Event und Mahane Multi-Service konnte ich bereits wertvolle Einblicke in die Gastronomie und den Gästeservice gewinnen. Diese Erfahrungen haben mir gezeigt, wie entscheidend ein professionelles, höfliches und serviceorientiertes Auftreten ist – insbesondere in herausfordernden Situationen. Der direkte Kontakt zu den Gästen hat mir dabei stets große Freude bereitet, da ich gerne mit Menschen arbeite und die vielfältigen Anforderungen des Hotelalltags schätze.
-                    <br><br>
-                    Meine Ausbildung im Fach Tourismus und Hotellerie an der IAMTEC sowie mein schulischer Hintergrund im Bereich Wirtschaft bilden ein solides Fundament für die anspruchsvollen Aufgaben dieser Ausbildung. Ergänzend dazu verfüge ich über gute Deutschkenntnisse (B1-Zertifikat - OSD), solide Englischkenntnisse und einen sicheren Umgang mit MS Office. Ich bin ein schneller Lerner und stets bereit, mich neuen Herausforderungen engagiert zu stellen.
-                    <br><br>
-                    Besonders motiviert mich die Aussicht, in einem internationalen Umfeld tätig zu sein, in dem Organisationstalent, ausgeprägte Kommunikationsfähigkeit und Teamgeist unerlässlich sind. Ich bin zuverlässig, freundlich und bewahre auch in stressigen Momenten einen klaren Kopf. Dank meiner offenen Persönlichkeit und meines gepflegten Erscheinungsbildes fällt es mir leicht, mich in neue Teams zu integrieren und für die Gäste eine angenehme und einladende Atmosphäre zu schaffen.
-                    <br><br>
-                    Ich bin fest davon überzeugt, dass ich mit meiner hohen Motivation, meinem Engagement und meiner positiven Arbeitseinstellung eine wertvolle Bereicherung für Ihr Team sein werde. Über die Möglichkeit, mich in einem persönlichen Gespräch vorzustellen, würde ich mich sehr freuen.
-                    <br><br>
-                    Mit freundlichen Grüßen
-                    <br>
-                    Tariq Mojahdi
-                </p>
-            </div>
-        </section>
-
-        <section id="lebenslauf" class="content-section min-h-screen pt-16 fade-in-section">
-            <h2>Lebenslauf</h2>
-            
-            <div class="card">
-                <h3>Persönliche Daten</h3>
-                <ul class="list-disc list-inside text-stone-700 space-y-1">
-                    <li><strong>Geburtsdatum & -ort:</strong> 20.09.2001 in Ain Chkeff / Marokko</li>
-                    <li><strong>Familienstand:</strong> Ledig</li>
-                    <li><strong>Staatsangehörigkeit:</strong> Marokkanisch</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>Berufserfahrungen</h3>
-                <div class="space-y-4">
-                    <div>
-                        <h4 class="font-semibold text-cyan-700">Praktikum im Bereich Reception & Kundenverwaltung</h4>
-                        <p class="text-sm text-stone-600">J-Yane Event | 17.01.2025 - 04.03.2025 <span class="italic text-xs">(Zukünftiges Praktikum)</span></p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-cyan-700">Praktikum als Kellner</h4>
-                        <p class="text-sm text-stone-600">MMS- Mahane Multi-Service | 15.07.2024 - 15.01.2025 <span class="italic text-xs">(Beginnend Juli 2024)</span></p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-cyan-700">Praktikant für Logistik und Operationen</h4>
-                        <p class="text-sm text-stone-600">ARCHITRUCK | 01.01.2023 - 01.06.2023</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>Ausbildung</h3>
-                 <div class="space-y-4">
-                    <div>
-                        <h4 class="font-semibold text-cyan-700">Ausbildung im Fach Tourismus und Hotellerie</h4>
-                        <p class="text-sm text-stone-600">IAMTEC | Seit 01.02.2024</p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-cyan-700">Leistungsnachweis im Bereich Software Engineering</h4>
-                        <p class="text-sm text-stone-600">Hochshule ingenieurwessen für angewandte Weissenschaften | 2020 - 2021</p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-cyan-700">Abitur in der Fachrichtung Wirtschaftwissenschaften</h4>
-                        <p class="text-sm text-stone-600">Salah Eddine Al Ayoubi | Abschluss 06.2019</p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-cyan-700">Zertifikat B1 Deutsch</h4>
-                        <p class="text-sm text-stone-600">ÖSD | Erworben 01.03.2019</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="kenntnisse" class="content-section min-h-screen pt-16 fade-in-section">
-            <h2>Kenntnisse & Fähigkeiten</h2>
-
-            <div class="card">
-                <h3>Sprachkenntnisse</h3>
-                <p class="text-stone-700 mb-4">Hier sehen Sie eine Visualisierung meiner Sprachkenntnisse. Ich bin motiviert, meine Deutschkenntnisse kontinuierlich zu verbessern.</p>
-                <div class="chart-container">
-                    <canvas id="languageSkillsChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-6 mt-6">
+        <div class="p-8 md:p-12 space-y-12"> <section id="anschreiben" class="content-section fade-in-section">
                 <div class="card">
-                    <h3>EDV-Kenntnisse</h3>
+                    <h2>Anschreiben</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        Sehr geehrte Damen und Herren,
+                        <br><br>
+                        mit großem Interesse und Begeisterung bewerbe ich mich hiermit um einen Ausbildungsplatz als Hotelfachmann in Ihrem renommierten Haus. Die Arbeit in der Hotellerie ist für mich nicht nur ein Beruf, sondern eine echte Leidenschaft, die ich durch meine bisherigen praktischen Erfahrungen und meine fundierte Ausbildung stetig weiterentwickelt habe.
+                        <br><br>
+                        Während meiner Praktika im Servicebereich bei J-Yane Event und Mahane Multi-Service konnte ich bereits wertvolle Einblicke in die Gastronomie und den Gästeservice gewinnen. Diese Erfahrungen haben mir gezeigt, wie entscheidend ein professionelles, höfliches und serviceorientiertes Auftreten ist – insbesondere in herausfordernden Situationen. Der direkte Kontakt zu den Gästen hat mir dabei stets große Freude bereitet, da ich gerne mit Menschen arbeite und die vielfältigen Anforderungen des Hotelalltags schätze.
+                        <br><br>
+                        Meine Ausbildung im Fach Tourismus und Hotellerie an der IAMTEC sowie mein schulischer Hintergrund im Bereich Wirtschaft bilden ein solides Fundament für die anspruchsvollen Aufgaben dieser Ausbildung. Ergänzend dazu verfüge ich über gute Deutschkenntnisse (B1-Zertifikat - OSD), solide Englischkenntnisse und einen sicheren Umgang mit MS Office. Ich bin ein schneller Lerner und stets bereit, mich neuen Herausforderungen engagiert zu stellen.
+                        <br><br>
+                        Besonders motiviert mich die Aussicht, in einem internationalen Umfeld tätig zu sein, in dem Organisationstalent, ausgeprägte Kommunikationsfähigkeit und Teamgeist unerlässlich sind. Ich bin zuverlässig, freundlich und bewahre auch in stressigen Momenten einen klaren Kopf. Dank meiner offenen Persönlichkeit und meines gepflegten Erscheinungsbildes fällt es mir leicht, mich in neue Teams zu integrieren und für die Gäste eine angenehme und einladende Atmosphäre zu schaffen.
+                        <br><br>
+                        Ich bin fest davon überzeugt, dass ich mit meiner hohen Motivation, meinem Engagement und meiner positiven Arbeitseinstellung eine wertvolle Bereicherung für Ihr Team sein werde. Über die Möglichkeit, mich in einem persönlichen Gespräch vorzustellen, würde ich mich sehr freuen.
+                        <br><br>
+                        Mit freundlichen Grüßen
+                        <br>
+                        Tariq Mojahdi
+                    </p>
+                </div>
+            </section>
+
+            <section id="lebenslauf" class="content-section fade-in-section">
+                <h2>Lebenslauf</h2>
+                
+                <div class="card">
+                    <h3>Persönliche Daten</h3>
                     <ul class="list-disc list-inside text-stone-700 space-y-1">
-                        <li>MS Office (Word, Excel, PowerPoint)</li>
-                        <li>Datenbankkenntnisse (SQL, Access)</li>
-                        <li>Grundkenntnisse in Webdesign</li>
-                        <li>IT-Netzwerke</li>
-                        <li>Planungstools</li>
+                        <li><strong>Geburtsdatum & -ort:</strong> 20.09.2001 in Ain Chkeff / Marokko</li>
+                        <li><strong>Familienstand:</strong> Ledig</li>
+                        <li><strong>Staatsangehörigkeit:</strong> Marokkanisch</li>
                     </ul>
                 </div>
 
                 <div class="card">
-                    <h3>Weitere Fähigkeiten & Interessen</h3>
-                     <h4 class="font-semibold text-cyan-700 mt-0 mb-2">Führerschein</h4>
-                    <p class="text-stone-700 mb-4">Klasse B</p>
-
-                    <h4 class="font-semibold text-cyan-700 mt-4 mb-2">Hobbys</h4>
-                    <ul class="list-disc list-inside text-stone-700 space-y-1">
-                        <li>Breakdance</li>
-                        <li>Beatmaking</li>
-                    </ul>
+                    <h3>Berufserfahrungen</h3>
+                    <div class="space-y-4">
+                        <div class="cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors" onclick="showExperienceDetails('reception')">
+                            <h4 class="font-semibold text-cyan-700">Praktikum im Bereich Reception & Kundenverwaltung</h4>
+                            <p class="text-sm text-stone-600">J-Yane Event | 17.01.2025 - 04.03.2025 <span class="italic text-xs">(Zukünftiges Praktikum)</span></p>
+                            <p class="text-xs text-stone-500 mt-1">Klicken Sie für Details zu meinen Aufgaben und Erfolgen.</p>
+                        </div>
+                        <div class="cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors" onclick="showExperienceDetails('waiter')">
+                            <h4 class="font-semibold text-cyan-700">Praktikum als Kellner</h4>
+                            <p class="text-sm text-stone-600">MMS- Mahane Multi-Service | 15.07.2024 - 15.01.2025 <span class="italic text-xs">(Beginnend Juli 2024)</span></p>
+                            <p class="text-xs text-stone-500 mt-1">Klicken Sie für Details zu meinen Aufgaben und Erfolgen.</p>
+                        </div>
+                        <div class="cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors" onclick="showExperienceDetails('logistics')">
+                            <h4 class="font-semibold text-cyan-700">Praktikant für Logistik und Operationen</h4>
+                            <p class="text-sm text-stone-600">ARCHITRUCK | 01.01.2023 - 01.06.2023</p>
+                            <p class="text-xs text-stone-500 mt-1">Klicken Sie für Details zu meinen Aufgaben und Erfolgen.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <section id="kontakt" class="content-section min-h-screen pt-16 fade-in-section">
-            <div class="card">
-                <h2>Kontakt</h2>
-                <p class="text-stone-700 mb-6">
-                    Ich hoffe, diese interaktive Bewerbung hat Ihnen einen guten Eindruck von mir vermitteln können.
-                    Für Rückfragen oder zur Vereinbarung eines persönlichen Gesprächs stehe ich Ihnen gerne zur Verfügung.
-                </p>
-                <div class="space-y-3">
-                    <p class="flex items-center text-stone-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-600" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
-                        tariqmj1337@gmail.com
-                    </p>
-                    <p class="flex items-center text-stone-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-600" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
-                        +212651727767
-                    </p>
-                    <p class="flex items-center text-stone-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg>
-                        N 35 Lot Baraka Hay Massira Fes / Marokko
-                    </p>
+                <div class="card">
+                    <h3>Ausbildung</h3>
+                     <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-cyan-700">Ausbildung im Fach Tourismus und Hotellerie</h4>
+                            <p class="text-sm text-stone-600">IAMTEC | Seit 01.02.2024</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-cyan-700">Leistungsnachweis im Bereich Software Engineering</h4>
+                            <p class="text-sm text-stone-600">Hochshule ingenieurwessen für angewandte Weissenschaften | 2020 - 2021</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-cyan-700">Abitur in der Fachrichtung Wirtschaftwissenschaften</h4>
+                            <p class="text-sm text-stone-600">Salah Eddine Al Ayoubi | Abschluss 06.2019</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-cyan-700">Zertifikat B1 Deutsch</h4>
+                            <p class="text-sm text-stone-600">ÖSD | Erworben 01.03.2019</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            <section id="kenntnisse" class="content-section fade-in-section">
+                <h2>Kenntnisse & Fähigkeiten</h2>
+
+                <div class="card">
+                    <h3>Sprachkenntnisse</h3>
+                    <p class="text-stone-700 mb-4">Hier sehen Sie eine Visualisierung meiner Sprachkenntnisse. Meine kulturelle Vielfalt und Sprachkenntnisse sind ein großer Vorteil im internationalen Hotelumfeld.</p>
+                    <div class="chart-container">
+                        <canvas id="languageSkillsChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div class="card">
+                        <h3>IT-Kenntnisse</h3>
+                        <ul class="list-disc list-inside text-stone-700 space-y-1">
+                            <li>MS Office (Word, Excel, PowerPoint)</li>
+                            <li>Datenbankkenntnisse (SQL, Access)</li>
+                            <li>Grundkenntnisse in Webdesign</li>
+                            <li>IT-Netzwerke</li>
+                            <li>Planungstools</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Soft Skills & Weitere Fähigkeiten</h3>
+                        <ul class="list-disc list-inside text-stone-700 space-y-1">
+                            <li><strong>Gästeorientierung:</strong> Professionelles, höfliches und serviceorientiertes Auftreten.</li>
+                            <li><strong>Kommunikationsfähigkeit:</strong> Klar und effektiv im Umgang mit Gästen und Team.</li>
+                            <li><strong>Teamgeist:</strong> Schnelle Integration in neue Teams.</li>
+                            <li><strong>Organisationstalent:</strong> Effizientes Arbeiten auch in stressigen Momenten.</li>
+                            <li><strong>Zuverlässigkeit & Freundlichkeit:</strong> Konstante positive Arbeitseinstellung.</li>
+                            <li><strong>Führerschein:</strong> Klasse B</li>
+                            <li><strong>Hobbys:</strong> Breakdance, Beatmaking (fördert Disziplin und Kreativität)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="kontakt" class="content-section fade-in-section">
+                <div class="card">
+                    <h2>Kontakt</h2>
+                    <p class="text-stone-700 mb-6">
+                        Ich hoffe, diese interaktive Bewerbung hat Ihnen einen guten Eindruck von mir vermitteln können.
+                        Für Rückfragen oder zur Vereinbarung eines persönlichen Gesprächs stehe ich Ihnen gerne zur Verfügung.
+                    </p>
+                    <div class="space-y-3">
+                        <p class="flex items-center text-stone-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-600" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
+                            tariqmj1337@gmail.com
+                        </p>
+                        <p class="flex items-center text-stone-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-600" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+                            +212651727767
+                        </p>
+                        <p class="flex items-center text-stone-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg>
+                            N 35 Lot Baraka Hay Massira Fes / Marokko
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
 
         <button id="backToTopBtn" class="fixed bottom-8 right-8 bg-cyan-700 text-white p-3 rounded-full shadow-lg hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-opacity duration-300 opacity-0">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
@@ -330,7 +391,7 @@
 
         const sidebar = document.getElementById('sidebar');
         const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const mainContent = document.querySelector('.main-content');
+        const mainContent = document.querySelector('main'); // Target the main element
 
         hamburgerBtn.addEventListener('click', () => {
             sidebar.classList.toggle('sidebar-mobile-hidden');
@@ -356,7 +417,18 @@
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    targetElement.scrollIntoView({
+                    // Calculate offset for fixed mobile header
+                    let headerOffset = 0;
+                    const mobileHeader = document.querySelector('header.md\\:hidden');
+                    if (window.innerWidth < 768 && mobileHeader) {
+                        headerOffset = mobileHeader.offsetHeight;
+                    }
+                    
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+                    window.scrollTo({
+                        top: offsetPosition,
                         behavior: 'smooth'
                     });
                 }
@@ -390,10 +462,12 @@
 
         window.onscroll = () => {
             let current = '';
+            // Adjust offset based on fixed header height on mobile
+            const mobileHeaderHeight = window.innerWidth < 768 ? (document.querySelector('header.md\\:hidden')?.offsetHeight || 0) : 0;
+            const offset = mobileHeaderHeight > 0 ? mobileHeaderHeight + 20 : 60; // Add some extra buffer for mobile
+
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                // Adjust offset based on fixed header height on mobile
-                const offset = window.innerWidth < 768 ? 100 : 60;
                 if (pageYOffset >= sectionTop - offset) {
                     current = section.getAttribute('id');
                 }
@@ -421,6 +495,19 @@
             });
         });
 
+        // Function to show experience details (conceptual clickable module)
+        function showExperienceDetails(experienceType) {
+            let details = '';
+            if (experienceType === 'reception') {
+                details = "Details zum Praktikum Reception & Kundenverwaltung:\n\n- Unterstützung bei Check-in/Check-out Prozessen.\n- Bearbeitung von Gästeanfragen und Beschwerden.\n- Verwaltung von Reservierungen und Kundendatenbanken.\n- Beitrag zur Verbesserung der Gästezufriedenheit um X%.";
+            } else if (experienceType === 'waiter') {
+                details = "Details zum Praktikum als Kellner:\n\n- Service am Gast in verschiedenen Restaurantbereichen.\n- Aufnahme von Bestellungen und Servieren von Speisen und Getränken.\n- Sicherstellung eines reibungslosen Ablaufs im Servicebereich.\n- Erhalt von Y positiven Kundenrückmeldungen.";
+            } else if (experienceType === 'logistics') {
+                details = "Details zum Praktikum für Logistik und Operationen:\n\n- Unterstützung bei der Koordination von Lieferketten.\n- Bestandsverwaltung und Optimierung von Lagerprozessen.\n- Beitrag zur Effizienzsteigerung der Operationen um Z%.";
+            }
+            // Using alert for demonstration as per instructions, but in a real app, this would be a custom modal.
+            alert(details);
+        }
 
         // Chart.js for Language Skills
         const ctx = document.getElementById('languageSkillsChart').getContext('2d');
@@ -432,16 +519,16 @@
                     label: 'Sprachniveau',
                     data: [100, 80, 60, 30],
                     backgroundColor: [
-                        'rgba(59, 130, 246, 0.8)', /* blue-500, slightly more opaque */
-                        'rgba(16, 185, 129, 0.8)', /* emerald-500, slightly more opaque */
-                        'rgba(239, 68, 68, 0.8)',  /* red-500, slightly more opaque */
-                        'rgba(249, 115, 22, 0.8)'  /* orange-500, slightly more opaque */
+                        'rgba(20, 184, 166, 0.8)', /* Teal-500, slightly more opaque */
+                        'rgba(6, 182, 212, 0.8)',  /* Cyan-500, slightly more opaque */
+                        'rgba(249, 115, 22, 0.8)', /* Orange-500, slightly more opaque */
+                        'rgba(251, 191, 36, 0.8)'  /* Amber-400, slightly more opaque */
                     ],
                     borderColor: [
-                        'rgba(59, 130, 246, 1)',
-                        'rgba(16, 185, 129, 1)',
-                        'rgba(239, 68, 68, 1)',
-                        'rgba(249, 115, 22, 1)'
+                        'rgba(20, 184, 166, 1)',
+                        'rgba(6, 182, 212, 1)',
+                        'rgba(249, 115, 22, 1)',
+                        'rgba(251, 191, 36, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -460,13 +547,13 @@
                             }
                         },
                         grid: {
-                            display: false /* Hide x-axis grid lines */
+                            display: false
                         }
                     },
                     y: {
                         ticks: {
                              font: {
-                                size: 12 /* Slightly larger font for y-axis labels */
+                                size: 12
                             },
                              callback: function(value, index, values) {
                                 const label = this.getLabelForValue(value);
@@ -477,7 +564,7 @@
                             }
                         },
                         grid: {
-                            display: false /* Hide y-axis grid lines */
+                            display: false
                         }
                     }
                 },
